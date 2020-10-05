@@ -33,7 +33,7 @@ export default () => {
           fluid={data.papercoverBig.childImageSharp.fluid}
           alt="papercover-big"
         />
-        <h1>Salong</h1>
+        <h1>Salong test</h1>
       </div>
     </AppFrame>
   )
