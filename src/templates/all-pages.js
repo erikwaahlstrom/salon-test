@@ -28,9 +28,9 @@ export default ({ data }) => {
 
   const pageArray = res.allSitePage.edges.map(item => item)
 
-  const filteredPageArray = pageArray.filter(
-    item => item.node.context.link !== null
-  )
+  const filteredPageArray = pageArray.filter(item => {
+    return item.node.context.link !== null
+  })
 
   return (
     <>
