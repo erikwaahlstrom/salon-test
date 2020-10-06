@@ -1,8 +1,9 @@
 import React from "react"
-// import { Link } from "gatsby"
+import { Link } from "gatsby"
 import AppFrame from "../components/AppFrame"
 import NavComponent from "../components/NavComponent"
 import facepaint from "facepaint"
+import { graphql } from "gatsby"
 // import jsonData from "../data/jsonData.json"
 // import Arrow from "../assets/arrow.svg"
 // import Star from "../assets/star.svg"
@@ -12,7 +13,8 @@ import AllPages from "../templates/all-pages.js"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
-export default () => {
+export default ({ data }) => {
+  const edges = data.allSitePage.edges
   return (
     <AppFrame>
       <div
@@ -23,6 +25,23 @@ export default () => {
       >
         <NavComponent />
         <AllPages />
+
+        {edges.map(({ node }, index) => {
+          if (node && node.context && node.context.link) {
+            return (
+              <div key={index} style={{ display: "inline-block" }}>
+                <Link
+                  to={node.context.link}
+                  css={{ listStyle: "none", textDecoration: "none" }}
+                >
+                  {node.context.link}
+                </Link>
+              </div>
+            )
+          } else {
+            return null
+          }
+        })}
         {/* <ul css={{ margin: 0, padding: 0 }}>
           {jsonData.salons.map((item, index) => {
             return (
@@ -73,3 +92,17 @@ export default () => {
     </AppFrame>
   )
 }
+
+export const query = graphql`
+  query {
+    allSitePage {
+      edges {
+        node {
+          context {
+            link
+          }
+        }
+      }
+    }
+  }
+`
