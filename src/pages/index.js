@@ -9,7 +9,7 @@ import { graphql } from "gatsby"
 // import Star from "../assets/star.svg"
 // import StarUnfilled from "../assets/star_unfilled.svg"
 
-import AllPages from "../templates/all-pages.js"
+// import AllPages from "../templates/all-pages.js"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
@@ -24,7 +24,7 @@ export default ({ data }) => {
         })}
       >
         <NavComponent />
-        <AllPages />
+        {/* <AllPages /> */}
 
         {edges.map(({ node }, index) => {
           if (node && node.context && node.context.link) {
