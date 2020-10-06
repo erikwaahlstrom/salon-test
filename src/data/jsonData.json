@@ -1,0 +1,28 @@
+[
+  {
+    "link": "saxofron",
+    "title": "Sax & frön",
+    "description": "Lorem ipsum dolor sit amet, vulputate nunc. Auctor viverra. Ridiculus feugiat nunc porttitor volut pat, acu quis torquent iaculis ultricies massa, duis nun quis que amet.",
+    "address": "Rådmansgatan 46",
+    "postal": "113 57 Stockholm",
+    "website": "www.salongweb.se",
+    "time": "12.00",
+    "phone": "0852238920",
+    "reviews": 32,
+    "price": 320,
+    "duration": 30
+  },
+  {
+    "link": "dog",
+    "title": "Sax & frön",
+    "description": "Lorem ipsum dolor sit amet, vulputate nunc. Auctor viverra. Ridiculus feugiat nunc porttitor volut pat, acu quis torquent iaculis ultricies massa, duis nun quis que amet.",
+    "address": "Rådmansgatan 46",
+    "postal": "113 57 Stockholm",
+    "website": "www.salongweb.se",
+    "time": "12.00",
+    "phone": "0852238920",
+    "reviews": 32,
+    "price": 320,
+    "duration": 30
+  }
+]

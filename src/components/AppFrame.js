@@ -11,7 +11,7 @@ const AppFrame = props => {
       <Global
         styles={css({
           "@font-face": {
-            fontFamily: "'Millerlight'",
+            fontFamily: "'MillerBanner'",
             src: 'url("../fonts/Font Bureau - MillerBanner Light.otf")',
           },
           html: {
@@ -29,6 +29,25 @@ const AppFrame = props => {
           },
           "#___gatsby": {
             height: "100%",
+          },
+          p: {
+            margin: 0,
+            padding: 0,
+            fontWeight: 300,
+            color: "#202020",
+          },
+          h2: {
+            margin: 0,
+            padding: 0,
+            fontFamily: "Millerbanner",
+            fontWeight: 300,
+            color: "#202020",
+          },
+          hr: {
+            height: "2px",
+            border: 0,
+            color: "#eeeeee",
+            backgroundColor: "#eeeeee",
           },
         })}
       />
