@@ -4,7 +4,7 @@ const data = require("./src/data/jsonData.json")
 exports.createPages = ({ actions }) => {
   const { createPage } = actions
 
-  const template = path.resolve("./src/templates/all-pages.js")
+  const template = path.resolve("./src/pages/index.js")
 
   data.forEach(page => {
     const path = page.link
@@ -15,12 +15,12 @@ exports.createPages = ({ actions }) => {
     })
   })
 
-  // Create a page for each Pokémon.
-  data.forEach(pokemon => {
+  // Create a page for salon
+  data.forEach(page => {
     createPage({
-      path: `${pokemon.link}/`,
-      component: require.resolve("./src/templates/pokemon.js"),
-      context: { pokemon },
+      path: `${page.link}/`,
+      component: require.resolve("./src/templates/single-page.js"),
+      context: { page },
     })
   })
 }

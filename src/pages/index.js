@@ -5,9 +5,9 @@ import NavComponent from "../components/NavComponent"
 import facepaint from "facepaint"
 import { graphql } from "gatsby"
 // import jsonData from "../data/jsonData.json"
-// import Arrow from "../assets/arrow.svg"
-// import Star from "../assets/star.svg"
-// import StarUnfilled from "../assets/star_unfilled.svg"
+import Arrow from "../assets/arrow.svg"
+import Star from "../assets/star.svg"
+import StarUnfilled from "../assets/star_unfilled.svg"
 
 // import AllPages from "../templates/all-pages.js"
 
@@ -26,22 +26,57 @@ export default ({ data }) => {
         <NavComponent />
         {/* <AllPages /> */}
 
-        {edges.map(({ node }, index) => {
-          if (node && node.context && node.context.link) {
-            return (
-              <div key={index} style={{ display: "inline-block" }}>
-                <Link
-                  to={node.context.link}
-                  css={{ listStyle: "none", textDecoration: "none" }}
-                >
-                  {node.context.link}
-                </Link>
-              </div>
-            )
-          } else {
-            return null
-          }
-        })}
+        <ul css={{ margin: 0, padding: 0 }}>
+          {edges.map(({ node }, index) => {
+            if (node && node.context && node.context.link) {
+              return (
+                <li key={index} css={{ listStyle: "none" }}>
+                  <Link
+                    to={node.context.link}
+                    css={{ listStyle: "none", textDecoration: "none" }}
+                  >
+                    <div
+                      css={{
+                        display: "grid",
+                        gridTemplateColumns: "20% 50% 20% 10%",
+                      }}
+                    >
+                      <p
+                        css={{
+                          fontWeight: "normal",
+                        }}
+                      >
+                        {node.context.time}
+                      </p>
+                      <div>
+                        <h2>{node.context.title}</h2>
+
+                        <Star />
+                        <Star />
+                        <Star />
+                        <StarUnfilled />
+                        <p css={{ display: "inline" }}>
+                          {node.context.reviews}
+                        </p>
+                        <p>{node.context.address}</p>
+                      </div>
+                      <div>
+                        <p css={{ fontWeight: "normal" }}>
+                          {node.context.price}
+                        </p>
+                        <p>{node.context.duration} min</p>
+                      </div>
+                      <Arrow />
+                    </div>
+                    <hr />
+                  </Link>
+                </li>
+              )
+            } else {
+              return null
+            }
+          })}
+        </ul>
         {/* <ul css={{ margin: 0, padding: 0 }}>
           {jsonData.salons.map((item, index) => {
             return (
@@ -99,7 +134,13 @@ export const query = graphql`
       edges {
         node {
           context {
+            address
             link
+            title
+            reviews
+            time
+            price
+            duration
           }
         }
       }
