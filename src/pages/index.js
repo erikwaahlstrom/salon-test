@@ -16,22 +16,23 @@ export default ({ data }) => {
   const [minVal, setMinVal] = useState(0)
   const [maxVal, setMaxVal] = useState(0)
   const [toggleFilter, setToggleFilter] = useState(false)
-  // const [range, setRangeVal] = useState({ min: 0, max: 100 })
 
   const updateFilterList = e => {
     e.preventDefault()
-    const salons = edges.filter(({ node }) => {
-      return node && node.context && node.context.price
-    })
-    const min = parseInt(minVal)
-    const max = parseInt(maxVal)
+    if (maxVal > 0) {
+      const salons = edges.filter(({ node }) => {
+        return node && node.context && node.context.price
+      })
+      const min = parseInt(minVal)
+      const max = parseInt(maxVal)
 
-    const filtered = salons.filter(({ node }) => {
-      return node.context.price >= min && node.context.price <= max
-    })
-    setFilter(filtered)
-    setToggleFilter(true)
-    console.log(filtered)
+      const filtered = salons.filter(({ node }) => {
+        return node.context.price >= min && node.context.price <= max
+      })
+      setFilter(filtered)
+      setToggleFilter(true)
+      console.log(filtered)
+    }
   }
 
   const onPriceRangeChangeMin = event => {
@@ -75,8 +76,9 @@ export default ({ data }) => {
           <input type="submit" />
         </form>
         <button onClick={resetFilter}>Reset</button>
-        {!toggleFilter
-          ? edges.map(({ node }, index) => {
+        {!toggleFilter ? (
+          <ul css={{ margin: 0, padding: 0 }}>
+            {edges.map(({ node }, index) => {
               if (node && node.context && node.context.link) {
                 return (
                   <li key={index} css={{ listStyle: "none" }}>
@@ -121,27 +123,27 @@ export default ({ data }) => {
                   </li>
                 )
               } else {
-                return ""
+                return null
               }
-            })
-          : filterState.map((filteredSalon, index) => {
-              return (
-                <div
-                  key={index}
-                  css={{ height: "50px", border: "1px solid red" }}
-                >
-                  <Link
-                    to={filteredSalon.node.context.link}
-                    css={{ listStyle: "none", textDecoration: "none" }}
-                  >
-                    <p>{filteredSalon.node.context.title}</p>
-                  </Link>
-                </div>
-              )
             })}
-
-        {/* <button onClick={filterSalons}>Filter</button> */}
-        {/* <ul css={{ margin: 0, padding: 0 }}>{}</ul> */}
+          </ul>
+        ) : (
+          filterState.map((filteredSalon, index) => {
+            return (
+              <div
+                key={index}
+                css={{ height: "50px", border: "1px solid red" }}
+              >
+                <Link
+                  to={filteredSalon.node.context.link}
+                  css={{ listStyle: "none", textDecoration: "none" }}
+                >
+                  <p>{filteredSalon.node.context.title}</p>
+                </Link>
+              </div>
+            )
+          })
+        )}
       </div>
     </AppFrame>
   )
