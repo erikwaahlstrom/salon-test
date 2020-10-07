@@ -8,7 +8,7 @@ export default function SinglePage({ pageContext: { page } }) {
         <p>{page.link}</p>
         <p>{page.address}</p>
       </div>
-      <Link to="/">Back to all Pokémon</Link>
+      <Link to="/">Back to all Salons</Link>
     </>
   )
 }

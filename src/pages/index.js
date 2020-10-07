@@ -1,20 +1,31 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "gatsby"
 import AppFrame from "../components/AppFrame"
-import NavComponent from "../components/NavComponent"
 import facepaint from "facepaint"
 import { graphql } from "gatsby"
-// import jsonData from "../data/jsonData.json"
 import Arrow from "../assets/arrow.svg"
 import Star from "../assets/star.svg"
 import StarUnfilled from "../assets/star_unfilled.svg"
-
-// import AllPages from "../templates/all-pages.js"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
 export default ({ data }) => {
   const edges = data.allSitePage.edges
+
+  const [filterState, setFilter] = useState([])
+
+  const filterSalons = () => {
+    const salons = edges.filter(({ node }) => {
+      return node && node.context && node.context.price
+    })
+
+    const filtered = salons.filter(({ node }) => {
+      return node.context.price < 100
+    })
+    setFilter(filtered)
+    console.log(filtered)
+  }
+  console.log(filterState)
   return (
     <AppFrame>
       <div
@@ -23,9 +34,15 @@ export default ({ data }) => {
           maxWidth: "960px",
         })}
       >
-        <NavComponent />
-        {/* <AllPages /> */}
-
+        {/* <NavComponent /> */}
+        {filterState.map((filteredSalon, index) => {
+          return (
+            <div key={index}>
+              <p>{filteredSalon.node.context.title}</p>
+            </div>
+          )
+        })}
+        <button onClick={filterSalons}>Filter</button>
         <ul css={{ margin: 0, padding: 0 }}>
           {edges.map(({ node }, index) => {
             if (node && node.context && node.context.link) {
@@ -50,7 +67,6 @@ export default ({ data }) => {
                       </p>
                       <div>
                         <h2>{node.context.title}</h2>
-
                         <Star />
                         <Star />
                         <Star />
@@ -62,7 +78,7 @@ export default ({ data }) => {
                       </div>
                       <div>
                         <p css={{ fontWeight: "normal" }}>
-                          {node.context.price}
+                          {node.context.price} kr
                         </p>
                         <p>{node.context.duration} min</p>
                       </div>
@@ -73,56 +89,10 @@ export default ({ data }) => {
                 </li>
               )
             } else {
-              return null
+              return ""
             }
           })}
         </ul>
-        {/* <ul css={{ margin: 0, padding: 0 }}>
-          {jsonData.salons.map((item, index) => {
-            return (
-              <>
-                <Link
-                  to="/priser"
-                  css={{ listStyle: "none", textDecoration: "none" }}
-                >
-                  <div
-                    key={index}
-                    css={{
-                      display: "grid",
-                      gridTemplateColumns: "20% 50% 20% 10%",
-                    }}
-                  >
-                    <p
-                      css={{
-                        fontWeight: "normal",
-                      }}
-                    >
-                      {item.time}
-                    </p>
-                    <div>
-                      <li>
-                        <h2>{item.title}</h2>
-                      </li>
-
-                      <Star />
-                      <Star />
-                      <Star />
-                      <StarUnfilled />
-                      <p css={{ display: "inline" }}>{item.reviews}</p>
-                      <p>{item.address}</p>
-                    </div>
-                    <div>
-                      <p css={{ fontWeight: "normal" }}>{item.price}</p>
-                      <p>{item.duration} min</p>
-                    </div>
-                    <Arrow />
-                  </div>
-                  <hr />
-                </Link>
-              </>
-            )
-          })}
-        </ul> */}
       </div>
     </AppFrame>
   )
