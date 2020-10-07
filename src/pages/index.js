@@ -13,19 +13,45 @@ export default ({ data }) => {
   const edges = data.allSitePage.edges
 
   const [filterState, setFilter] = useState([])
+  const [minVal, setMinVal] = useState(0)
+  const [maxVal, setMaxVal] = useState(0)
+  const [toggleFilter, setToggleFilter] = useState(false)
+  // const [range, setRangeVal] = useState({ min: 0, max: 100 })
 
-  const filterSalons = () => {
+  const updateFilterList = e => {
+    e.preventDefault()
     const salons = edges.filter(({ node }) => {
       return node && node.context && node.context.price
     })
+    const min = parseInt(minVal)
+    const max = parseInt(maxVal)
 
     const filtered = salons.filter(({ node }) => {
-      return node.context.price < 100
+      return node.context.price >= min && node.context.price <= max
     })
     setFilter(filtered)
+    setToggleFilter(true)
     console.log(filtered)
   }
-  console.log(filterState)
+
+  const onPriceRangeChangeMin = event => {
+    setMinVal(event.target.value)
+  }
+  const onPriceRangeChangeMax = event => {
+    setMaxVal(event.target.value)
+  }
+
+  // SAME ONCHANGE HANDLER FOR BOTH INPUTS?
+  // const onPriceRangeChange = event => {
+  //   setRangeVal({ [event.target.name]: event.target.value })
+  // }
+
+  const resetFilter = () => {
+    setToggleFilter(false)
+    setMinVal(0)
+    setMaxVal(0)
+  }
+
   return (
     <AppFrame>
       <div
@@ -35,64 +61,87 @@ export default ({ data }) => {
         })}
       >
         {/* <NavComponent /> */}
-        {filterState.map((filteredSalon, index) => {
-          return (
-            <div key={index}>
-              <p>{filteredSalon.node.context.title}</p>
-            </div>
-          )
-        })}
-        <button onClick={filterSalons}>Filter</button>
-        <ul css={{ margin: 0, padding: 0 }}>
-          {edges.map(({ node }, index) => {
-            if (node && node.context && node.context.link) {
-              return (
-                <li key={index} css={{ listStyle: "none" }}>
-                  <Link
-                    to={node.context.link}
-                    css={{ listStyle: "none", textDecoration: "none" }}
-                  >
-                    <div
-                      css={{
-                        display: "grid",
-                        gridTemplateColumns: "20% 50% 20% 10%",
-                      }}
+        <form onSubmit={updateFilterList} css={{ margin: "30px 0" }}>
+          <select value={minVal} name="min" onChange={onPriceRangeChangeMin}>
+            <option value={0}>0</option>
+            <option value={100}>100</option>
+            <option value={250}>250</option>
+          </select>
+          <select value={maxVal} name="max" onChange={onPriceRangeChangeMax}>
+            <option value={0}>0</option>
+            <option value={100}>100</option>
+            <option value={250}>250</option>
+          </select>
+          <input type="submit" />
+        </form>
+        <button onClick={resetFilter}>Reset</button>
+        {!toggleFilter
+          ? edges.map(({ node }, index) => {
+              if (node && node.context && node.context.link) {
+                return (
+                  <li key={index} css={{ listStyle: "none" }}>
+                    <Link
+                      to={node.context.link}
+                      css={{ listStyle: "none", textDecoration: "none" }}
                     >
-                      <p
+                      <div
                         css={{
-                          fontWeight: "normal",
+                          display: "grid",
+                          gridTemplateColumns: "20% 50% 20% 10%",
                         }}
                       >
-                        {node.context.time}
-                      </p>
-                      <div>
-                        <h2>{node.context.title}</h2>
-                        <Star />
-                        <Star />
-                        <Star />
-                        <StarUnfilled />
-                        <p css={{ display: "inline" }}>
-                          {node.context.reviews}
+                        <p
+                          css={{
+                            fontWeight: "normal",
+                          }}
+                        >
+                          {node.context.time}
                         </p>
-                        <p>{node.context.address}</p>
+                        <div>
+                          <h2>{node.context.title}</h2>
+                          <Star />
+                          <Star />
+                          <Star />
+                          <StarUnfilled />
+                          <p css={{ display: "inline" }}>
+                            {node.context.reviews}
+                          </p>
+                          <p>{node.context.address}</p>
+                        </div>
+                        <div>
+                          <p css={{ fontWeight: "normal" }}>
+                            {node.context.price} kr
+                          </p>
+                          <p>{node.context.duration} min</p>
+                        </div>
+                        <Arrow />
                       </div>
-                      <div>
-                        <p css={{ fontWeight: "normal" }}>
-                          {node.context.price} kr
-                        </p>
-                        <p>{node.context.duration} min</p>
-                      </div>
-                      <Arrow />
-                    </div>
-                    <hr />
+                      <hr />
+                    </Link>
+                  </li>
+                )
+              } else {
+                return ""
+              }
+            })
+          : filterState.map((filteredSalon, index) => {
+              return (
+                <div
+                  key={index}
+                  css={{ height: "50px", border: "1px solid red" }}
+                >
+                  <Link
+                    to={filteredSalon.node.context.link}
+                    css={{ listStyle: "none", textDecoration: "none" }}
+                  >
+                    <p>{filteredSalon.node.context.title}</p>
                   </Link>
-                </li>
+                </div>
               )
-            } else {
-              return ""
-            }
-          })}
-        </ul>
+            })}
+
+        {/* <button onClick={filterSalons}>Filter</button> */}
+        {/* <ul css={{ margin: 0, padding: 0 }}>{}</ul> */}
       </div>
     </AppFrame>
   )
