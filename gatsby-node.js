@@ -4,7 +4,7 @@ const data = require("./src/data/jsonData.json")
 exports.createPages = ({ actions }) => {
   const { createPage } = actions
 
-  const template = path.resolve("./src/pages/index.js")
+  const template = path.resolve("./src/templates/single-page.js")
 
   data.forEach(page => {
     const path = page.link
