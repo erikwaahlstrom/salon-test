@@ -19,7 +19,7 @@ const NavComponent = () => {
         <BackArrow css={{ height: "50px" }} />
       </Link>
       <h1>Hår</h1>
-      <FilterIcon />
+      <FilterIcon css={{ width: "50px" }} />
     </div>
   )
 }

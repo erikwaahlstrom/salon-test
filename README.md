@@ -18,6 +18,12 @@ Normalize - makes browsers render all elements more consistently and in line wit
 
 # Suggestions for discussion topics (time constraint and/or scope of project):
 
+Seperate into more reusable components and events
+
+Font scaling
+
+Make more filters - ascending / descending etc.
+
 Work with SEO more, WCAG guidelines, availability and color contrasts etc.
 
 Tackle potential performance issues (lighthouse etc).
@@ -25,3 +31,5 @@ Tackle potential performance issues (lighthouse etc).
 Some error handling, expand on creating loaders, progressbars and error handling when data can't be fetched etc.
 
 The app using Gatsby Image - further, look into image optimizations further
+
+And more ...
