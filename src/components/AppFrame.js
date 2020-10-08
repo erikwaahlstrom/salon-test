@@ -36,6 +36,14 @@ const AppFrame = props => {
             fontWeight: 300,
             color: "#202020",
           },
+          h1: {
+            margin: 0,
+            padding: 0,
+            fontSize: "22px",
+            fontFamily: "Millerbanner",
+            fontWeight: 300,
+            color: "#202020",
+          },
           h2: {
             margin: 0,
             padding: 0,

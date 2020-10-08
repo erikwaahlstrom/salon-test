@@ -1,5 +1,8 @@
 import React from "react"
 import facepaint from "facepaint"
+import { Link } from "gatsby"
+import BackArrow from "../assets/arrow_back.svg"
+import FilterIcon from "../assets/filter.svg"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
@@ -13,7 +16,11 @@ const NavComponent = () => {
         width: "100%",
       })}
     >
-      <h1>NavComponent</h1>
+      <Link to="/">
+        <BackArrow />
+      </Link>
+      <h1>Hår</h1>
+      <FilterIcon />
     </div>
   )
 }

@@ -1,13 +1,48 @@
 import React, { useState } from "react"
 import { Link } from "gatsby"
 import AppFrame from "../components/AppFrame"
+import NavComponent from "../components/NavComponent"
 import facepaint from "facepaint"
 import { graphql } from "gatsby"
 import Arrow from "../assets/arrow.svg"
+import ArrowDown from "../assets/arrow_down.svg"
 import Star from "../assets/star.svg"
 import StarUnfilled from "../assets/star_unfilled.svg"
+import { CSSTransition } from "react-transition-group"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
+
+const duration = 100
+
+const defaultStyle = {
+  maxHeight: "0px",
+  transition: `max-height ${duration}ms ease-in-out`,
+  overflow: "hidden",
+  backgroundColor: "#8787d8",
+}
+
+const transitionStyles = {
+  entering: { height: "auto", maxHeight: "100px" },
+  entered: {
+    maxHeight: "100px",
+    transition: `max-height ${duration}ms ease-in-out`,
+  },
+}
+
+const Fade = ({ in: inProp }) => (
+  <CSSTransition in={inProp} timeout={duration}>
+    {state => (
+      <div
+        style={{
+          ...defaultStyle,
+          ...transitionStyles[state],
+        }}
+      >
+        I'm A fade Transition!
+      </div>
+    )}
+  </CSSTransition>
+)
 
 export default ({ data }) => {
   const edges = data.allSitePage.edges
@@ -16,6 +51,7 @@ export default ({ data }) => {
   const [minVal, setMinVal] = useState(0)
   const [maxVal, setMaxVal] = useState(0)
   const [toggleFilter, setToggleFilter] = useState(false)
+  const [menuActive, setMenuActive] = useState(false)
 
   const updateFilterList = e => {
     e.preventDefault()
@@ -53,6 +89,12 @@ export default ({ data }) => {
     setMaxVal(0)
   }
 
+  const toggleFilterDropdown = () => {
+    let menuState = !menuActive
+    setMenuActive(menuState)
+    console.log(menuActive)
+  }
+
   return (
     <AppFrame>
       <div
@@ -61,21 +103,61 @@ export default ({ data }) => {
           maxWidth: "960px",
         })}
       >
-        {/* <NavComponent /> */}
-        <form onSubmit={updateFilterList} css={{ margin: "30px 0" }}>
-          <select value={minVal} name="min" onChange={onPriceRangeChangeMin}>
-            <option value={0}>0</option>
-            <option value={100}>100</option>
-            <option value={250}>250</option>
-          </select>
-          <select value={maxVal} name="max" onChange={onPriceRangeChangeMax}>
-            <option value={0}>0</option>
-            <option value={100}>100</option>
-            <option value={250}>250</option>
-          </select>
-          <input type="submit" />
-        </form>
-        <button onClick={resetFilter}>Reset</button>
+        <NavComponent />
+        <Fade in={!!menuActive} />
+        {/***************************************************************/}
+        <div
+          css={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: "50px",
+            borderTop: "0.5px solid #b69f58",
+            borderBottom: "0.5px solid #b69f58",
+            ":hover": { background: "#eeeeee" },
+          }}
+          onClick={toggleFilterDropdown}
+        >
+          <p
+            css={{
+              fontSize: "15px",
+            }}
+          >
+            Pris {minVal} - {maxVal}
+          </p>
+          <ArrowDown />
+        </div>
+
+        {/***************************************************************/}
+        {menuActive ? (
+          <>
+            <form onSubmit={updateFilterList}>
+              <select
+                value={minVal}
+                name="min"
+                onChange={onPriceRangeChangeMin}
+              >
+                <option value={0}>0</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+              </select>
+              <select
+                value={maxVal}
+                name="max"
+                onChange={onPriceRangeChangeMax}
+              >
+                <option value={0}>0</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+              </select>
+              <input type="submit" />
+            </form>
+            <button onClick={resetFilter}>Reset</button>
+          </>
+        ) : (
+          ""
+        )}
+
         {!toggleFilter ? (
           <ul css={{ margin: 0, padding: 0 }}>
             {edges.map(({ node }, index) => {
