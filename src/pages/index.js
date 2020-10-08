@@ -9,6 +9,7 @@ import ArrowDown from "../assets/arrow_down.svg"
 import Star from "../assets/star.svg"
 import StarUnfilled from "../assets/star_unfilled.svg"
 import { CSSTransition } from "react-transition-group"
+import Select from "react-select"
 
 const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
@@ -18,31 +19,16 @@ const defaultStyle = {
   maxHeight: "0px",
   transition: `max-height ${duration}ms ease-in-out`,
   overflow: "hidden",
-  backgroundColor: "#8787d8",
 }
 
 const transitionStyles = {
   entering: { height: "auto", maxHeight: "100px" },
   entered: {
     maxHeight: "100px",
+    overflow: "visible",
     transition: `max-height ${duration}ms ease-in-out`,
   },
 }
-
-const Fade = ({ in: inProp }) => (
-  <CSSTransition in={inProp} timeout={duration}>
-    {state => (
-      <div
-        style={{
-          ...defaultStyle,
-          ...transitionStyles[state],
-        }}
-      >
-        I'm A fade Transition!
-      </div>
-    )}
-  </CSSTransition>
-)
 
 export default ({ data }) => {
   const edges = data.allSitePage.edges
@@ -67,21 +53,15 @@ export default ({ data }) => {
       })
       setFilter(filtered)
       setToggleFilter(true)
-      console.log(filtered)
     }
   }
 
-  const onPriceRangeChangeMin = event => {
-    setMinVal(event.target.value)
+  const onPriceRangeChangeMin = minOptionSelected => {
+    setMinVal(minOptionSelected.value)
   }
-  const onPriceRangeChangeMax = event => {
-    setMaxVal(event.target.value)
+  const onPriceRangeChangeMax = maxOptionSelected => {
+    setMaxVal(maxOptionSelected.value)
   }
-
-  // SAME ONCHANGE HANDLER FOR BOTH INPUTS?
-  // const onPriceRangeChange = event => {
-  //   setRangeVal({ [event.target.name]: event.target.value })
-  // }
 
   const resetFilter = () => {
     setToggleFilter(false)
@@ -92,28 +72,28 @@ export default ({ data }) => {
   const toggleFilterDropdown = () => {
     let menuState = !menuActive
     setMenuActive(menuState)
-    console.log(menuActive)
   }
 
   return (
     <AppFrame>
       <div
         css={mq({
-          margin: "0 auto",
+          margin: "0 auto 50px auto",
           maxWidth: "960px",
+          backgroundColor: "white",
         })}
       >
         <NavComponent />
-        <Fade in={!!menuActive} />
-        {/***************************************************************/}
         <div
           css={{
+            padding: "0px 20px 0px 20px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             height: "50px",
             borderTop: "0.5px solid #b69f58",
             borderBottom: "0.5px solid #b69f58",
+            cursor: "pointer",
             ":hover": { background: "#eeeeee" },
           }}
           onClick={toggleFilterDropdown}
@@ -127,37 +107,72 @@ export default ({ data }) => {
           </p>
           <ArrowDown />
         </div>
-
-        {/***************************************************************/}
-        {menuActive ? (
-          <>
-            <form onSubmit={updateFilterList}>
-              <select
-                value={minVal}
-                name="min"
-                onChange={onPriceRangeChangeMin}
+        <CSSTransition in={!!menuActive} timeout={duration}>
+          {state => (
+            <div
+              style={{
+                ...defaultStyle,
+                ...transitionStyles[state],
+              }}
+            >
+              <form
+                onSubmit={updateFilterList}
+                css={mq({
+                  margin: "10px 0px 20px 0px",
+                  width: ["100%", "50%", "50%"],
+                })}
               >
-                <option value={0}>0</option>
-                <option value={100}>100</option>
-                <option value={250}>250</option>
-              </select>
-              <select
-                value={maxVal}
-                name="max"
-                onChange={onPriceRangeChangeMax}
-              >
-                <option value={0}>0</option>
-                <option value={100}>100</option>
-                <option value={250}>250</option>
-              </select>
-              <input type="submit" />
-            </form>
-            <button onClick={resetFilter}>Reset</button>
-          </>
-        ) : (
-          ""
-        )}
+                <Select
+                  defaultValue={[{ label: "0" }]}
+                  onChange={onPriceRangeChangeMin}
+                  options={[
+                    { value: 0, label: 0 },
+                    { value: 100, label: 100 },
+                    { value: 250, label: 250 },
+                  ]}
+                  css={{ width: "50%", display: "inline-block" }}
+                />
+                <Select
+                  defaultValue={[{ label: "0" }]}
+                  onChange={onPriceRangeChangeMax}
+                  options={[
+                    { value: 0, label: 0 },
+                    { value: 100, label: 100 },
+                    { value: 250, label: 250 },
+                  ]}
+                  css={{ width: "50%", display: "inline-block" }}
+                />
 
+                <input
+                  type="submit"
+                  css={{
+                    width: "50%",
+                    height: "30px",
+                    display: "inline-block",
+                    backgroundColor: "#fff",
+                    border: "2px solid #e7e7e7",
+                    cursor: "pointer",
+                    ":hover": { background: "#eeeeee" },
+                  }}
+                />
+                <button
+                  onClick={resetFilter}
+                  css={{
+                    width: "50%",
+                    height: "30px",
+                    display: "inline-block",
+                    backgroundColor: "#fff",
+                    border: "2px solid #e7e7e7",
+                    cursor: "pointer",
+                    ":hover": { background: "#eeeeee" },
+                  }}
+                >
+                  Reset
+                </button>
+              </form>
+            </div>
+          )}
+        </CSSTransition>
         {!toggleFilter ? (
           <ul css={{ margin: 0, padding: 0 }}>
             {edges.map(({ node }, index) => {
@@ -170,6 +185,7 @@ export default ({ data }) => {
                     >
                       <div
                         css={{
+                          padding: "0px 20px 0px 20px",
                           display: "grid",
                           gridTemplateColumns: "20% 50% 20% 10%",
                         }}
@@ -187,8 +203,8 @@ export default ({ data }) => {
                           <Star />
                           <Star />
                           <StarUnfilled />
-                          <p css={{ display: "inline" }}>
-                            {node.context.reviews}
+                          <p css={{ display: "inline", marginLeft: "10px" }}>
+                            ({node.context.reviews})
                           </p>
                           <p>{node.context.address}</p>
                         </div>

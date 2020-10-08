@@ -31,22 +31,21 @@ const AppFrame = props => {
             height: "100%",
           },
           p: {
-            margin: 0,
-            padding: 0,
+            fontFamily: "'Helvetica Neue', 'sans-serif'",
             fontWeight: 300,
             color: "#202020",
           },
           h1: {
-            margin: 0,
-            padding: 0,
-            fontSize: "22px",
             fontFamily: "Millerbanner",
             fontWeight: 300,
             color: "#202020",
           },
           h2: {
-            margin: 0,
-            padding: 0,
+            fontFamily: "Millerbanner",
+            fontWeight: 300,
+            color: "#202020",
+          },
+          h3: {
             fontFamily: "Millerbanner",
             fontWeight: 300,
             color: "#202020",
