@@ -12,7 +12,10 @@ const AppFrame = props => {
         styles={css({
           "@font-face": {
             fontFamily: "'MillerBanner'",
-            src: 'url("../fonts/Font Bureau - MillerBanner Light.otf")',
+            src: 'url("../fonts/millerbanner.otf") format("opentype")',
+            src: ' url("../fonts/MillerBanner-Light.eot")',
+            src:
+              'url("../fonts/MillerBanner-Light.eot?#iefix") format("embedded-opentype")',
           },
           html: {
             boxSizing: "border-box",
