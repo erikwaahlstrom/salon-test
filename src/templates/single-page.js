@@ -173,8 +173,8 @@ export default function SinglePage({ pageContext: { page } }) {
                 fontFamily: "'Helvetica Neue', 'sans-serif'",
               }}
             >
-              Öppettider till {page.openhours}:00
-            </p>{" "}
+              Öppettider till {page.openhours}
+            </p>
             <ArrowDown />
           </div>
           <div

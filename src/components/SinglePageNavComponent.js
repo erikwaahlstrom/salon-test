@@ -1,16 +1,14 @@
 import React from "react"
-import facepaint from "facepaint"
 import { Link } from "gatsby"
+
 import SingleBackArrow from "../assets/arrow_back_single.svg"
 import FavIcon from "../assets/heart.svg"
-
-const mq = facepaint(["@media(min-width: 668px)", "@media(min-width: 1024px)"])
 
 const SinglePageNavComponent = () => {
   return (
     <div css={{ position: "relative" }}>
       <div
-        css={mq({
+        css={{
           padding: "0px 20px 0px 20px",
           display: "flex",
           justifyContent: "space-between",
@@ -21,11 +19,11 @@ const SinglePageNavComponent = () => {
           left: 0,
           right: 0,
           zIndex: 1,
-        })}
+        }}
       >
-        <Link to="/">
+        <Link css={{ height: "50px", width: "50px" }} to="/">
           <div className="custom">
-            <SingleBackArrow />
+            <SingleBackArrow css={{ height: "50px" }} />
           </div>
         </Link>
         <FavIcon />
