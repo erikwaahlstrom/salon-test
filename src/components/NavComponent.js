@@ -14,6 +14,7 @@ const NavComponent = () => {
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
+        height: "100px",
       })}
     >
       <Link to="/">
